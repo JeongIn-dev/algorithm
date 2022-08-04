@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8606432e-2ca5-4480-a2b9-14bff43636e5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/solutions/Test.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/algorithm.iml" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm.iml" afterDir="false" />
@@ -16,8 +15,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -45,7 +44,7 @@
       <recent name="solutions" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.solutions.Test">
+  <component name="RunManager" selected="Application.Tetris">
     <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Test" />
       <module name="algorithm" />
@@ -66,22 +65,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="solutions.Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="solutions.Test" />
-      <module name="algorithm" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="solutions.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.solutions.Test" />
         <item itemvalue="Application.Tetris" />
         <item itemvalue="Application.Test" />
       </list>
@@ -96,7 +81,7 @@
       <option name="presentableId" value="Default" />
       <updated>1659508946091</updated>
       <workItem from="1659508947869" duration="2233000" />
-      <workItem from="1659585019851" duration="13087000" />
+      <workItem from="1659585019851" duration="5841000" />
     </task>
     <servers />
   </component>
