@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8606432e-2ca5-4480-a2b9-14bff43636e5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/solutions/Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="8606432e-2ca5-4480-a2b9-14bff43636e5" name="Changes" comment="add Tetris">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithm.iml" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/algorithm/solutions/Test.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/algorithm/solutions/Test.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/algorithm/solutions/Tetris.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/algorithm/solutions/Tetris.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solutions/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/solutions/Test.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/solutions/Tetris.java" beforeDir="false" afterPath="$PROJECT_DIR$/solutions/Tetris.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -45,7 +45,7 @@
       <recent name="solutions" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.solutions.Test">
+  <component name="RunManager" selected="Application.Tetris">
     <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Test" />
       <module name="algorithm" />
@@ -81,8 +81,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.solutions.Test" />
         <item itemvalue="Application.Tetris" />
+        <item itemvalue="Application.solutions.Test" />
         <item itemvalue="Application.Test" />
       </list>
     </recent_temporary>
@@ -96,8 +96,16 @@
       <option name="presentableId" value="Default" />
       <updated>1659508946091</updated>
       <workItem from="1659508947869" duration="2233000" />
-      <workItem from="1659585019851" duration="13087000" />
+      <workItem from="1659585019851" duration="38696000" />
     </task>
+    <task id="LOCAL-00001" summary="add Tetris">
+      <created>1659603971996</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1659603971996</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -113,5 +121,20 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add Tetris" />
+    <option name="LAST_COMMIT_MESSAGE" value="add Tetris" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/solutions/Tetris.java</url>
+          <line>200</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
