@@ -6,10 +6,12 @@ public class Tetris{
 
     private int numberOfBlocks;
     private int[] direction;
-    private final Map<Integer, char[][]> resultMap = new HashMap<>();
+    private int minSize;
+    private char[][] result;
 
     public void start(List<char[][]> arg) {
         numberOfBlocks = arg.size();
+        minSize = numberOfBlocks * 9 * 9;
 //        createDirectionArray();
 
         List<int[]> permutatedIndiesList = getPermutatedIndiesList(arg);
@@ -18,12 +20,7 @@ public class Tetris{
             saveMinSizeOfBlocksOnResultMap(arg, permutation);
         }
 
-        int minSize = numberOfBlocks * 9 * 9;
-        for (Integer result : resultMap.keySet()) {
-            minSize = Math.min(minSize, result);
-        }
-
-        showResult(minSize);
+        showResult();
     }
 
     private List<int[]> getPermutatedIndiesList(List<char[][]> arg) {
@@ -133,9 +130,9 @@ public class Tetris{
         char[][] block = blockList.get(indexOfBlock);
         List<char[][]> stackedTables = stackBlockOnTable(table, rotateBlock(block, rotateNum));
 
-        // 결과 저장
+        // 결과 검사
         if ( indexOfBlock == blockList.size() - 1 ) {
-            saveTable(stackedTables);
+            putResultIfSmallestEver(stackedTables);
         }
 
         return stackedTables;
@@ -209,11 +206,12 @@ public class Tetris{
 //        return (numberOfBlocks - 1) * 3;
     }
 
-    private void saveTable(List<char[][]> stackedTables) {
+    private void putResultIfSmallestEver(List<char[][]> stackedTables) {
         for (char[][] stackedTable : stackedTables) {
             int size = getSizeOfCombinedBlocks(stackedTable);
-            if ( !resultMap.containsKey(size) ) {
-                resultMap.put(size, stackedTable);
+            if ( size < minSize ) {
+                minSize = size;
+                result = stackedTable;
             }
         }
     }
@@ -238,9 +236,8 @@ public class Tetris{
         return (lastX - firstX + 1) * (lastY - firstY + 1);
     }
 
-    private void showResult(int key) {
-        System.out.println("Size : " + key);
-        char[][] result = resultMap.get(key);
+    private void showResult() {
+        System.out.println("Size : " + minSize);
         for (char[] chars : result) {
             for (char c : chars) {
                 System.out.print(c);
@@ -323,13 +320,13 @@ public class Tetris{
         arr3[1][0] = 'c';
         arr3[1][1] = 'c';
         arr3[1][2] = 'c';
-        arr3[2][0] = 'c';
-        arr3[2][1] = 'c';
-        arr3[2][2] = 'c';
-//        char[][] arr4 = new char[3][3];
-//        arr4[0][0] = 'd';
-//        arr4[0][1] = 'd';
-//        arr4[0][2] = 'd';
+//        arr3[2][0] = 'c';
+//        arr3[2][1] = 'c';
+//        arr3[2][2] = 'c';
+        char[][] arr4 = new char[3][3];
+        arr4[0][0] = 'd';
+        arr4[1][0] = 'd';
+        arr4[2][0] = 'd';
 //        arr4[1][0] = 'd';
 //        arr4[1][1] = 'd';
 //        arr4[1][2] = 'd';
@@ -340,7 +337,7 @@ public class Tetris{
         list.add(arr1);
         list.add(arr2);
         list.add(arr3);
-//        list.add(arr4);
+        list.add(arr4);
 
         for (char[][] arr : list) {
             for (char[] chars : arr) {
