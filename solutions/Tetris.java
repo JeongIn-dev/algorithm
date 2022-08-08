@@ -6,15 +6,26 @@ public class Tetris{
 
     private int numberOfBlocks;
     private int[] direction;
-    private final Map<Integer, int[][]> resultMap = new HashMap<>();
+    private final Map<Integer, char[][]> resultMap = new HashMap<>();
 
-    public void start(List<int[][]> arg) {
+    public void start(List<char[][]> arg) {
         numberOfBlocks = arg.size();
         createDirectionArray();
 
         //todo 순서 iter
-        List<int[][]> blockList = arg;
-        saveMinSizeOfBlocksOnResultMap(blockList);
+        List<char[][]> blockList = arg;
+        Set<Integer> selected = new HashSet<>();
+
+        for (int i = 0; i < arg.size(); i++) {
+            selected.add(i);
+            int[] indies = choiceNotSelectedIndex(arg.size(), selected);
+            List<char[][]> permutatedBlockList = new ArrayList<>();
+            for ( int index : indies) {
+                permutatedBlockList.add(blockList.get(index));
+            }
+            saveMinSizeOfBlocksOnResultMap(permutatedBlockList);
+        }
+
 
         int minSize = numberOfBlocks * 9 * 9;
         for (Integer result : resultMap.keySet()) {
@@ -22,6 +33,24 @@ public class Tetris{
         }
 
         showResult(minSize);
+    }
+
+    private int[] choiceNotSelectedIndex(int size, Set<Integer> selected) {
+        for (int j = 0; j < size; j++) {
+            if ( selected.contains(j) ) {
+                continue;
+            } else {
+                selected.add(j);
+                if ( selected.size() == size ) {
+                    return selected.stream()
+                            .mapToInt(Integer::intValue)
+                            .toArray();
+                } else {
+                    return choiceNotSelectedIndex(size, selected);
+                }
+            }
+        }
+        return selected.stream().mapToInt(Integer::intValue).toArray();
     }
 
     // 이동 횟수에 따른 방향 확인용 array 생성 
@@ -43,8 +72,8 @@ public class Tetris{
         }
     }
 
-    private void saveMinSizeOfBlocksOnResultMap(List<int[][]> blockList) {
-        int[][] table = createTable();
+    private void saveMinSizeOfBlocksOnResultMap(List<char[][]> blockList) {
+        char[][] table = createTable();
         
         // 첫 번째 블록 입력 
         stackFirstBlockOnTable(blockList.get(0), table);
@@ -52,7 +81,7 @@ public class Tetris{
         stackRemainBlocksOnTableAndSaveResult(blockList, table);
     }
 
-    private int[][] createTable() {
+    private char[][] createTable() {
         double sqrt = Math.sqrt(numberOfBlocks);
         //Math.ceil() : 소수점 올림
         int num = (int) Math.ceil(sqrt);
@@ -60,10 +89,10 @@ public class Tetris{
             num++;
         }
         int tableLength = (int) Math.pow(num,2);
-        return new int[tableLength][tableLength];
+        return new char[tableLength][tableLength];
     }
 
-    private void stackFirstBlockOnTable(int[][] block, int[][] table) {
+    private void stackFirstBlockOnTable(char[][] block, char[][] table) {
         int centerStartIndex = ( table.length - 3 ) / 2;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -72,15 +101,15 @@ public class Tetris{
         }
     }
 
-    private void stackRemainBlocksOnTableAndSaveResult(List<int[][]> blockList, int[][] table) {
-        List<int[][]> list = new ArrayList<>();
+    private void stackRemainBlocksOnTableAndSaveResult(List<char[][]> blockList, char[][] table) {
+        List<char[][]> list = new ArrayList<>();
         for (int indexOfBlock = 1; indexOfBlock < blockList.size(); indexOfBlock++) {
             if ( list.isEmpty() ) {
                 for (int rotateNum = 0; rotateNum < 4; rotateNum++) {
                     list.add(stackBlocksOnTable(blockList, indexOfBlock, rotateNum, table));
                 }
             } else {
-                List<int[][]> copy = new ArrayList<>(list);
+                List<char[][]> copy = new ArrayList<>(list);
                 list.clear();
                 for (int rotateNum = 0; rotateNum < 4; rotateNum++) {
                     for (int j = 0; j < copy.size(); j++) {
@@ -91,9 +120,9 @@ public class Tetris{
         }
     }
 
-    private int[][] stackBlocksOnTable(List<int[][]> blockList, int indexOfBlock, int rotateNum, int[][] table) {
-        int[][] block = blockList.get(indexOfBlock);
-        int[][] stackedTable;
+    private char[][] stackBlocksOnTable(List<char[][]> blockList, int indexOfBlock, int rotateNum, char[][] table) {
+        char[][] block = blockList.get(indexOfBlock);
+        char[][] stackedTable;
 
         if ( rotateNum == 0 ) { //회전 X
             stackedTable = stackBlockOnTable(table, block);
@@ -111,8 +140,8 @@ public class Tetris{
 
     // 블록 회전
     // rotateNum : 회전 수
-    private int[][] rotateBlock(int[][] block, int rotateNum) {
-        int[][] rotatedBlock = new int[3][3];
+    private char[][] rotateBlock(char[][] block, int rotateNum) {
+        char[][] rotatedBlock = new char[3][3];
         for (int i = 0; i < rotateNum; i++) {
             rotatedBlock[0][0] = block[2][0];
             rotatedBlock[0][1] = block[1][0];
@@ -127,25 +156,25 @@ public class Tetris{
         return rotatedBlock;
     }
 
-    private int[][] stackBlockOnTable(int[][] table, int[][] block) {
+    private char[][] stackBlockOnTable(char[][] table, char[][] block) {
         int moveCount = 1;
         int centerStartIndex = ( table.length - 3 ) / 2;
         Point point = new Point(centerStartIndex, centerStartIndex);
         return getStackedTable(table, block, moveCount, point);
     }
 
-    private int[][] getStackedTable(int[][] table, int[][] block, int moveCount, Point point) {
-        int[][] newTable = deepCopy(table);
+    private char[][] getStackedTable(char[][] table, char[][] block, int moveCount, Point point) {
+        char[][] newTable = deepCopy(table);
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if ( block[i][j] == 1 ) {
+                if ( block[i][j] != '\u0000' ) {
                     // 위치에 놓을 수 있으면 입력, 아니면 이동
-                    if ( newTable[point.getY() +i][point.getX() +j] == 1 ) {
+                    if ( newTable[point.getY() +i][point.getX() +j] != '\u0000' ) {
                         movePoint(point, moveCount);
                         return getStackedTable(table, block, moveCount+1, point);
                     } else {
-                        newTable[point.getY() +i][point.getX() +j] = 1;
+                        newTable[point.getY() +i][point.getX() +j] = block[i][j];
                     }
                 }
             }
@@ -168,7 +197,7 @@ public class Tetris{
         }
     }
 
-    private void saveTable(int[][] stackedTable) {
+    private void saveTable(char[][] stackedTable) {
         int size = getSizeOfCombinedBlocks(stackedTable);
         if ( !resultMap.containsKey(size) ) {
             resultMap.put(size, stackedTable);
@@ -176,14 +205,14 @@ public class Tetris{
     }
 
     // 결합된 블록의 크기
-    private int getSizeOfCombinedBlocks(int[][] table) {
+    private int getSizeOfCombinedBlocks(char[][] table) {
         int firstX = table.length;
         int firstY = table.length;
         int lastX = -1;
         int lastY = -1;
         for (int i = 0; i < table.length; i++) {
             for (int j = 0; j < table.length; j++) {
-                if ( table[i][j] == 1 ) {
+                if ( table[i][j] != '\u0000' ) {
                     firstX = Math.min(firstX, j);
                     firstY = Math.min(firstY, i);
                     lastX = Math.max(lastX, j);
@@ -197,10 +226,10 @@ public class Tetris{
 
     private void showResult(int key) {
         System.out.println("Size : " + key);
-        int[][] result = resultMap.get(key);
-        for (int[] ints : result) {
-            for (int i : ints) {
-                System.out.print(i);
+        char[][] result = resultMap.get(key);
+        for (char[] chars : result) {
+            for (char c : chars) {
+                System.out.print(c);
                 System.out.print(" ");
             }
             System.out.println();
@@ -240,8 +269,8 @@ public class Tetris{
         }
 
     }
-    static int[][] deepCopy(int[][] src){
-        int[][] target = new int[src.length][src[0].length];
+    static char[][] deepCopy(char[][] src){
+        char[][] target = new char[src.length][src[0].length];
         for(int i=0; i<src.length; i++){
             for(int j=0; j<src[0].length; j++){
                 target[i][j] = src[i][j];
@@ -252,37 +281,37 @@ public class Tetris{
 
     public static void main(String[] args) {
         Tetris tetris = new Tetris();
-        List<int[][]> list = new ArrayList<>();
-        int[][] arr1 = new int[3][3];
-        arr1[1][0] = 1;
-        arr1[1][1] = 1;
-        arr1[1][2] = 1;
-        arr1[2][0] = 1;
-        arr1[2][1] = 1;
-        int[][] arr2 = new int[3][3];
-        arr2[1][0] = 1;
-        arr2[1][1] = 1;
-        arr2[1][2] = 1;
-        arr2[2][0] = 1;
-        int[][] arr3 = new int[3][3];
-        arr3[0][0] = 1;
-        arr3[0][1] = 1;
-        arr3[0][2] = 1;
-        arr3[1][0] = 1;
-        arr3[1][1] = 1;
-        arr3[1][2] = 1;
-        arr3[2][0] = 1;
-        arr3[2][1] = 1;
-        arr3[2][2] = 1;
+        List<char[][]> list = new ArrayList<>();
+        char[][] arr1 = new char[3][3];
+        arr1[1][0] = 'a';
+        arr1[1][1] = 'a';
+        arr1[1][2] = 'a';
+        arr1[2][0] = 'a';
+        arr1[2][1] = 'a';
+        char[][] arr2 = new char[3][3];
+        arr2[1][0] = 'b';
+        arr2[1][1] = 'b';
+        arr2[1][2] = 'b';
+        arr2[2][0] = 'b';
+        char[][] arr3 = new char[3][3];
+        arr3[0][0] = 'c';
+        arr3[0][1] = 'c';
+        arr3[0][2] = 'c';
+        arr3[1][0] = 'c';
+        arr3[1][1] = 'c';
+        arr3[1][2] = 'c';
+        arr3[2][0] = 'c';
+        arr3[2][1] = 'c';
+        arr3[2][2] = 'c';
 
         list.add(arr1);
         list.add(arr2);
         list.add(arr3);
 
-        for (int[][] arr : list) {
-            for (int[] ints : arr) {
-                for (int i : ints) {
-                    System.out.print(i);
+        for (char[][] arr : list) {
+            for (char[] chars : arr) {
+                for (char c : chars) {
+                    System.out.print(c);
                     System.out.print(" ");
                 }
                 System.out.println();
